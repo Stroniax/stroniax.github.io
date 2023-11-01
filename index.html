@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PSSharp</title>
+    <!-- <base href="https://stroniax.github.io/"> -->
+
+    <link rel="stylesheet" href="styles.css">
+
+    <meta charset="UTF-8">
+    <meta name="keywords" content="PSSharp,PowerShell,pwsh,github,open source">
+    <meta name="description" content="Documenting a developer's journey from PowerShell to the great beyond.">
+    <meta name="author" content="Caleb Frederickson">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="scripts/main/dark-mode.js"></script>
+    <!-- <script src="scripts/main/nav.js"></script> -->
+    <script>
+        function toggleDarkMode() {
+            const isDarkMode = document.body.classList.contains('dark');
+
+            if (isDarkMode) {
+                localStorage.setItem('dark-mode', 'false');
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+            }
+            else {
+                localStorage.setItem('dark-mode', 'true');
+                document.body.classList.remove('light');
+                document.body.classList.add('dark');
+            }
+        }
+
+        function showSettings() {
+            const settingsElement = document.createElement('div');
+            settingsElement.id = 'backdrop';
+            settingsElement.innerHTML = `
+                <div id="webapp-settings-modal">
+                    <div class="flex-row justify-between">
+                        <h3 class="text-2x">Settings</h3>
+                            
+                        <button class="button-rounded bg-burgundy text-2x button-events" style="width: 2.5rem; height: 2.5rem;" onclick="closeSettings()">
+                            X
+                        </button>
+                    </div>
+
+                    <div class="flex-row">
+
+                        <button onclick="toggleDarkMode()">
+                            Toggle Dark Mode
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(settingsElement);
+        }
+
+        function closeSettings() {
+            document.getElementById('backdrop').remove();
+        }
+
+        document.addEventListener('click', (event) => {
+            if (event.target.id === 'backdrop') {
+                document.body.removeChild(event.target);
+            }
+        });
+    </script>
+    <script>
+        function copyCodeBlock() {
+            const clip = navigator.clipboard;
+            const items = [
+                new ClipboardItem({
+                    'text/plain': new Blob([this.innerText], { type: 'text/plain' }),
+                    'text/html': new Blob([this.innerHTML], { type: 'text/html' })
+                }),
+            ];
+
+            clip.write(items)
+                .then(() => {
+                    const copiedElement = document.createElement('p');
+                    copiedElement.classList.add('alert-text');
+                    copiedElement.innerText = 'Copied!';
+                    alertContainer.appendChild(copiedElement);
+                    setTimeout(() => {
+                        copiedElement.classList.add('animate-fade-out');
+                        setTimeout(() => {
+                            copiedElement.remove();
+                        }, 1000);
+                    }, 2000);
+                })
+                .catch((e) => console.error('failed to set clipboard', e));
+
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const codeBlocks = [
+                ...document.getElementsByClassName('code-block'),
+                ...document.getElementsByClassName('code-inline'),
+            ];
+            for (const codeBlock of codeBlocks) {
+                codeBlock.classList.add('cursor-pointer');
+                codeBlock.addEventListener('click', copyCodeBlock);
+            }
+        });
+
+        let alertContainer;
+
+        function buildAlertContainer() {
+            alertContainer = document.createElement('div');
+            alertContainer.id = 'alert-container';
+            document.body.appendChild(alertContainer);
+        }
+
+        window.addEventListener('load', buildAlertContainer);
+
+        document.addEventListener('click', (event) => {
+            if (event.target.classList.contains('alert-text')) {
+                event.target.remove();
+            }
+        });
+    </script>
+
+<body class="layout-main">
+    <div id="nav">[NAV]</div>
+
+    <h1 class="text-2x page-header text-nowrap">
+        <a href="index.html">PSSharp</a>
+        <span class="cursor-pointer" onclick="showSettings()" style="width: 2rem; display: inline-flex;">
+            &gt;
+            <span class="text-cursor-blink">_</span>
+        </span>
+    </h1>
+
+    <div class="page-content">
+        <pre class="code-block">
+This is a block of PowerShell-style code.
+    </pre>
+
+        <p>
+            This is a paragraph of text with an <span class="code-inline">inline code block</span>.
+        </p>
+        <p>
+            This is a <span class="code-inline code-function">Test-Function</span>.
+        </p>
+
+        <button>Test Button</button>
+        <a>Test Link</a>
+
+    </div>
+
+    <div class="page-sidebar">
+        [SIDEBAR]
+    </div>
+</body>
+
+</html>

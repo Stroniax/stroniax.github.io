@@ -1,0 +1,298 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    --color-powershell-bg: #012456;
+    --color-powershell-fg: #ffffff;
+}
+
+body.light {
+    --bg-default: #95b1d8;
+    --text-default: #18034c;
+    --bg-modal: #a3cace;
+}
+
+body.dark {
+    --bg-default: #07172e;
+    --text-default: #b3aea7;
+    --bg-modal: #1b2d43;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+
+    background-color: var(--bg-default);
+    color: var(--text-default);
+
+    font-size: 1rem;
+
+    &::selection {
+        background-color: black;
+        color: white;
+    }
+}
+
+body.layout-main {
+    display: grid;
+    grid-template-areas:
+        'header'
+        'nav'
+        'content';
+
+    grid-template-columns: 1fr;
+}
+
+body>.page-sidebar {
+    display: none;
+}
+
+@media screen and (min-width: 1024px) {
+    body.layout-main {
+        display: grid;
+        grid-template-areas:
+            'nav header header'
+            'nav content sidebar';
+
+        grid-template-columns: 12.5rem 1fr 10rem;
+    }
+
+    body>.page-sidebar {
+        display: flex;
+    }
+}
+
+body>.page-content {
+    grid-area: content;
+}
+
+body>.page-sidebar {
+    grid-area: sidebar;
+}
+
+body>.page-header {
+    grid-area: header;
+    padding: 0.5rem;
+    border-bottom: 0.0125rem solid #6f6f6f50;
+}
+
+body>#nav {
+    grid-area: nav;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+span,
+button,
+a,
+div {
+    font-size: inherit;
+}
+
+.text-4x {
+    font-size: 4rem;
+}
+
+.text-3x {
+    font-size: 3rem;
+}
+
+.text-2x {
+    font-size: 2rem;
+}
+
+.text-1x {
+    font-size: 1rem;
+}
+
+.text-1\/2x {
+    font-size: 0.5rem;
+}
+
+button,
+a {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: inherit;
+    font: inherit;
+    text-decoration: none;
+}
+
+.code-inline,
+.code-block {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: var(--color-powershell-bg);
+    color: var(--color-powershell-fg);
+    padding-left: 0.125rem;
+    padding-right: 0.125rem;
+    border-radius: 0.125rem;
+}
+
+.code-block {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-color: black;
+    text-wrap: nowrap;
+    overflow: auto;
+    max-width: 100vw;
+    max-height: 6rem;
+}
+
+.code-function {
+    color: #f0d74d;
+}
+
+.code-parameter-name {
+    color: gray;
+}
+
+.code-parameter-value {
+    color: lightblue;
+}
+
+.code-error {
+    color: red;
+}
+
+/* #region utility classes */
+
+.text-nowrap {
+    text-wrap: nowrap;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-rounded {
+    border-radius: 99rem;
+}
+
+.light .bg-burgundy {
+    background-color: #632013;
+}
+
+.dark .bg-burgundy {
+    background-color: #481a11;
+}
+
+.button-events {
+    border: 0.125rem solid transparent;
+
+    &:active {
+        border-color: white;
+    }
+}
+
+/* #endregion */
+
+/* #region modals, dialogues, popups */
+#backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    background-color: #0000007a;
+}
+
+#webapp-settings-modal {
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    left: 20%;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--bg-modal);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#alert-container {
+    position: fixed;
+    bottom: 4rem;
+    left: 0;
+    right: 0;
+    overflow-x: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+}
+
+.alert-text {
+    background-color: var(--bg-modal);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-radius: 0.25rem;
+    user-select: none;
+}
+
+/* #endregion */
+
+/* #region animations */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    51% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.text-cursor-blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.animate-fade-out {
+    animation: fadeout 1s;
+}
+
+/* #endregion */
