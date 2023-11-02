@@ -1,41 +1,56 @@
-function setDarkMode(value) {
-    if (value) {
-        localStorage.setItem('dark-mode', 'true');
-        document.body.classList.remove('light');
-        document.body.classList.add('dark');
+function isDarkMode() {
+    return document.body?.classList.contains('dark');
+}
+
+function getDarkModePreference() {
+    const systemPreference = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    const localPreference = localStorage.getItem('dark-mode');
+    const calculatedPreference = localPreference === null
+        ? systemPreference
+        : localPreference === 'true';
+
+    return {
+        systemPreference,
+        localPreference,
+        calculatedPreference,
+    };
+}
+
+function setDarkMode(value, storePreference = true) {
+    if (document.body === null) {
+        throw new Error('document.body is null; setDarkMode must be called after the document has loaded.');
     }
-    else {
-        localStorage.setItem('dark-mode', 'false');
-        document.body.classList.remove('dark');
-        document.body.classList.add('light');
+
+    const removeClass = value ? 'light' : 'dark';
+    const addClass = value ? 'dark' : 'light';
+    document.body.classList.remove(removeClass);
+    document.body.classList.add(addClass);
+
+    if (storePreference) {
+        localStorage.setItem('dark-mode', value ? 'true' : 'false');
     }
 }
 
 function toggleDarkMode() {
-    const isDarkMode = document.body?.classList.contains('dark');
-    setDarkMode(!isDarkMode);
-}
-
-function onDarkModeChange(event) {
-    setDarkMode(event.matches);
+    setDarkMode(!isDarkMode());
 }
 
 function initializeDarkMode() {
-    const isSystemDarkMode = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-    const darkModePreference = localStorage.getItem('dark-mode');
+    const preference = getDarkModePreference();
 
-    if (darkModePreference === null) {
-        setDarkMode(isSystemDarkMode);
-    }
-    else {
-        setDarkMode(darkModePreference === 'true');
-    }
+    setDarkMode(preference.calculatedPreference, preference.systemPreference);
 }
 
 function watchDarkMode() {
     initializeDarkMode();
 
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', onDarkModeChange);
+    function onSystemDarkModePreferenceChange(event) {
+        setDarkMode(event.matches, false);
+    }
+
+    window
+        .matchMedia?.('(prefers-color-scheme: dark)')
+        .addEventListener('change', onSystemDarkModePreferenceChange);
 }
 
 window.addEventListener('load', watchDarkMode);
