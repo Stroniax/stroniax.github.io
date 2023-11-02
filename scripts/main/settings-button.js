@@ -1,20 +1,4 @@
-
-function toggleDarkMode() {
-    const isDarkMode = document.body.classList.contains('dark');
-
-    if (isDarkMode) {
-        localStorage.setItem('dark-mode', 'false');
-        document.body.classList.remove('dark');
-        document.body.classList.add('light');
-    }
-    else {
-        localStorage.setItem('dark-mode', 'true');
-        document.body.classList.remove('light');
-        document.body.classList.add('dark');
-    }
-}
-
-function showSettings() {
+function openSettings() {
     const settingsElement = document.createElement('div');
     settingsElement.id = 'backdrop';
     settingsElement.innerHTML = `
@@ -27,7 +11,11 @@ function showSettings() {
                 </button>
             </div>
 
-            <div class="flex-row">
+            <div class="flex-col">
+
+                <button onclick="resetSettings()">
+                    Reset Settings
+                </button>
 
                 <button onclick="toggleDarkMode()">
                     Toggle Dark Mode
@@ -36,6 +24,11 @@ function showSettings() {
         </div>
     `;
     document.body.appendChild(settingsElement);
+}
+
+function resetSettings() {
+    localStorage.clear();
+    initializeDarkMode();
 }
 
 function closeSettings() {
