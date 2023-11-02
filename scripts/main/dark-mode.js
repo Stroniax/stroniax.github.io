@@ -41,6 +41,11 @@ function initializeDarkMode() {
     setDarkMode(preference.calculatedPreference, preference.systemPreference);
 }
 
+function resetDarkMode() {
+    localStorage.removeItem('dark-mode');
+    initializeDarkMode();
+}
+
 function watchDarkMode() {
     initializeDarkMode();
 
