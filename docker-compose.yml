@@ -1,0 +1,13 @@
+version: "3.0"
+
+services:
+  web:
+    image: stroniax.github.io
+    build:
+      dockerfile_inline: FROM httpd:2.4
+      context: .
+    ports:
+      - 8080:80
+    hostname: stroniax.github.io
+    volumes:
+      - .:/usr/local/apache2/htdocs/
