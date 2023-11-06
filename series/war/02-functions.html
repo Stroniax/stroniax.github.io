@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PSSharp</title>
+
+    <base href="../..">
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="assets/pssharp-colored.svg" type="image/svg" />
+
+    <meta charset="UTF-8">
+    <meta name="keywords" content="PSSharp,PowerShell,pwsh,github,open source">
+    <meta name="description" content="Documenting a developer's journey from PowerShell to the great beyond.">
+    <meta name="author" content="Caleb Frederickson">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="scripts/main/dark-mode.js"></script>
+    <script src="scripts/main/settings.js"></script>
+    <script src="scripts/main/copy-codeblock.js"></script>
+    <script src="scripts/main/nav.js"></script>
+    <script src="scripts/main/tooltip.js"></script>
+
+<body class="layout-main">
+    <nav id="nav"></nav>
+
+    <h1 class="text-4x page-header text-nowrap">
+        <a href="">PSSharp</a>
+        <span class="cursor-pointer" onclick="openSettings()" style="width: 2rem; display: inline-flex;">
+            &gt;
+            <span class="text-cursor-blink">_</span>
+        </span>
+    </h1>
+
+    <div class="page-content">
+
+        <h2 class="text-3x" tooltip="title">
+            Learning with a Game of War
+        </h2>
+
+        <nav class="page-breadcrumb">
+            <a href="">PSSharp</a>
+            <a href="series">Series</a>
+            <a href="series/war">Learning with a Game of War</a>
+        </nav>
+
+        <p>
+            Another way to think of functions is like mathematical functions. A mathematical
+            function takes input and returns output. For example, the function f(x) = x + 1.
+            This takes input x, and returns output x + 1. PowerShell functions are a little
+            more advanced but the input/transform/output concept transfers.
+        </p>
+
+
+        <p>
+            We're building a card game of war, so the first thing we're going to do is
+            create a card. I'll give top-level explanations of this code but we'll dig into
+            it a little more later on. Run this in your prompt:
+        </p>
+
+        <pre class="code-block">
+[<span class="code-typename">pscustomobject</span>]@{
+    <spa'n class="code-parameter-value">SuitName</span> = <span class="code-string">'Spades'</span>
+    <span class="code-parameter-value">RankName</span> = <span class="code-string">'Ace'</span>
+    <span class="code-parameter-value">Value   </span> = <span class="code-string">14</span>
+}</pre>
+
+        <p>
+            We see in the output that we just created an object with three properties. This is our
+            representation of a card! Now any time that we want to create a card, we know what code
+            we have to use. But in programming there's a concept called <i>DRY</i> - Don't Repeat
+            Yourself. Since we're planning to use this code more than once, we're going to turn it
+            into a reusable function.
+        </p>
+
+        <p>
+            PowerShell has some guidelines to help functions provide a consistent user experience.
+            Commands should be named in the pattern of <span class="keyword">Verb-Noun</span>. The
+            <span class="keyword">Noun</span> should be a single, PascalCase noun that describes
+            the object upon which the action (verb) is to be performed. The <span class="keyword">Verb</span>
+            should be one of the approved PowerShell verbs. To find out which verbs are approved, run
+            <span class="code-inline"><span class="code-function">Get-Verb</span></span>. You should
+            see the following output: read through the other verbs to see what you might be able to
+            use in the future.
+        </p>
+
+        <pre class="code-block">
+<span class="code-label">Verb        AliasPrefix Group          Description
+----        ----------- -----          -----------</span>
+Add         a           Common         Adds a resource to a container, or attaches an item to another item
+<span class="code-comment"># ... omitted</span>
+New         n           Common         Creates a resource
+<span class="code-comment"># ... omitted </span></pre>
+
+        <p>
+            Since we want to create a card, we'll choose the function name
+            <span class="code-inline code-function">New-Card</span>. Start with the
+            <span class="keyword">function</span> keyword, followed by the name; then
+            we put the code we want the function to run into a <span class="keyword">scriptblock</span>
+            by wrapping it in curly brackets <span class="keyword">{ }</span>.
+            Your result will look like the following.
+        </p>
+
+        <pre class="code-block">
+<span class="code-keyword">function</span> <span class="code-function">New-Card</span> {
+    [<span class="code-typename">pscustomobject</span>]@{
+        <spa'n class="code-parameter-value">SuitName</span> = <span class="code-string">'Spades'</span>
+        <span class="code-parameter-value">RankName</span> = <span class="code-string">'Ace'</span>
+        <span class="code-parameter-value">Value   </span> = <span class="code-string">14</span>
+    }
+}</pre>
+
+        <p>
+            Now we have a function!
+        </p>
+
+    </div>
+
+    <div class="page-sidebar">
+        [SIDEBAR]
+    </div>
+</body>
+
+</html>

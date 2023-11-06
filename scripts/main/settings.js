@@ -27,12 +27,12 @@ function openSettings() {
                     </button>
                 </div>
 
-                <button class="button-action bg-warn" onclick="resetSettings()">
+                <button class="action-button bg-warn" onclick="resetSettings()">
                     Reset Settings
                 </button>
 
                 <div class="flex-row">
-                    <button class="button-action" style="background-color: #3a3a3a;" onclick="closeSettings()">
+                    <button class="action-button" style="background-color: #3a3a3a;" onclick="closeSettings()">
                         Close
                     </button>
                 </div>

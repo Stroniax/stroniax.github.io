@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start Web-Server",
+            "type": "shell",
+            "command": "docker",
+            "args": [
+                "compose",
+                "up",
+            ],
+            "detail": "Run Static Web-Server in Docker on port 8080",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "icon": {
+                "id": "run",
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "promptOnClose": true,
+        }
+    ]
+}

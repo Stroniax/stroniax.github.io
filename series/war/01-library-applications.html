@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PSSharp</title>
+
+    <!-- <base href="https://stroniax.github.io/"> -->
+    <base href="http://localhost:8080/">
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="assets/pssharp-colored.svg" type="image/svg" />
+
+    <meta charset="UTF-8">
+    <meta name="keywords" content="PSSharp,PowerShell,pwsh,github,open source">
+    <meta name="description" content="Documenting a developer's journey from PowerShell to the great beyond.">
+    <meta name="author" content="Caleb Frederickson">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="scripts/main/dark-mode.js"></script>
+    <script src="scripts/main/settings.js"></script>
+    <script src="scripts/main/copy-codeblock.js"></script>
+    <script src="scripts/main/nav.js"></script>
+
+<body class="layout-main">
+    <nav id="nav">[NAV]</nav>
+
+    <h1 class="text-4x page-header text-nowrap">
+        <a href="">PSSharp</a>
+        <span class="cursor-pointer" onclick="openSettings()" style="width: 2rem; display: inline-flex;">
+            &gt;
+            <span class="text-cursor-blink">_</span>
+        </span>
+    </h1>
+
+    <div class="page-content">
+
+        <h2 class="text-3x">
+            A Library of Applications
+        </h2>
+
+        <nav class="page-breadcrumb">
+            <a href="">PSSharp</a>
+            <a href="series">Series</a>
+            <a href="series/pwsh-tutorial">PowerShell Tutorial</a>
+            <a href="series/pwsh-tutorial/01-library-applications">Library of Applications</a>
+        </nav>
+
+        <p>
+            PowerShell is like a library of applications. If you're like me, sometimes
+            you go to the library and you just browse. Let's start out by browsing the
+            PowerShell library. Run the following code in your PowerShell terminal.
+        </p>
+
+        <pre class="code-block"><span class="code-function">Get-Command</span></pre>
+
+        <p>
+            You're going to see a whole lot of commands scroll by. Each
+            <span class="keyword">command</span> in PowerShell can be thought of as an
+            application. I was overwhelmed by that information - let's look in the
+            library for a specific application - like using a catalogue to find a single
+            book. Run the following code in your PowerShell terminal.
+        </p>
+
+        <pre
+            class="code-block"><span class="code-function">Get-Command</span> <span class="code-parameter-name">-Name</span> <span class="code-parameter-value">'gcm'</span></pre>
+
+        <p>
+            Let's take a look at the output of of our command.
+        </p>
+
+        <pre class="code-block">
+<span class="code-label">CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------</span>
+Alias           gcm -> Get-Command
+</pre>
+
+        <p>
+            We have a table of information, presented as text, telling us about the commands
+            that are available. That's like looking in the library catalogue and seeing the
+            books they have!
+        </p>
+
+        <p>
+            The result we see is a command, which is a tool that we can run in PowerShell.
+            Much like an application we can run it, but instead of opening a window, most
+            commands only run in the terminal.
+        </p>
+
+        <p>
+            There are a few different types of commands. We want to be accurate with our
+            terminology, but this is more technical than you probably need right now; feel
+            free to come back and read this section again later.
+        </p>
+
+        <ul>
+
+            <li>
+                <h4 class="keyword">Script</h4>
+                <p>
+                    A script is a PowerShell file (ending in <span class="keyword">.ps1</span>)
+                    which can be run by PowerShell. It's the simplest way to make a reusable
+                    group of PowerShell code. You can run a script by typing the full name of the
+                    script file in the terminal, e.g. <span class="code-inline">./path/to/script.ps1</span>.
+                </p>
+            </li>
+
+            <li>
+                <h4 class="keyword">Function</h4>
+                <p>
+                    A function, like a script, is a bunch of PowerShell code that runs
+                    together. Instead of running a file, you can define or load a function
+                    in PowerShell and it'll stick around until you close the window.
+                </p>
+                <p>
+                    Functions are generally easier to use because you don't have to worry
+                    about where the file is located, but there are some considerations
+                    to take into account which we'll take about in the next article.
+                </p>
+            </li>
+
+            <li>
+                <h4 class="keyword">Cmdlet</h4>
+                <p>
+                    A cmdlet is a special type of function that is written in a dotnet
+                    language like C# (or F# or Visual Basic) and compiled into a DLL.
+                    Because they can't be written directly in PowerShell they're a little
+                    more complicated to write, but they tend to be more consistent,
+                    reliable, and performant.
+                </p>
+                <p>
+                    I'm writing a series on
+                    <a href="series/pwsh-to-csharp">how to learn C# by writing PowerShell cmdlets</a>
+                    that you can check out after this series.
+                </p>
+            </li>
+
+            <li>
+                <h4 class="keyword">Application</h4>
+                <p>
+                    An application is an executable program (on Windows that's a file ending in
+                    <span class="keyword">.exe</span>) that PowerShell can run. Like a command
+                    prompt, PowerShell can run these. They're more portable that the other
+                    PowerShell command types because they generally don't require PowerShell to
+                    run, but they are less useful in PowerShell that the other types of commands
+                    because they only accept text input and output. While we see things as text
+                    in PowerShell, what we are dealing with often enough are actually rich objects
+                    with descriptive values called <span class="keyword">properties</span>
+                    and ways to interact with those values called <span class="keyword">methods</span>.
+                    Because applications only support text input/output (to be compatible with
+                    non-PowerShell use), it's preferable to use the other types of commands
+                    whenever possible.
+                </p>
+            </li>
+
+        </ul>
+
+        <p>
+            So there are different types of a command, but from a use perspective
+            they're pretty much the same. You type the name of the command, and you
+            hit enter. The command does something - maybe it changes a setting, maybe
+            it displays information. Let's create a command!
+        </p>
+
+    </div>
+
+    <div class="page-sidebar">
+        [SIDEBAR]
+    </div>
+</body>
+
+</html>

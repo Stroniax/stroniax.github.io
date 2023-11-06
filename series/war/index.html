@@ -1,0 +1,249 @@
+<!--
+    This series aims to teach the beginner how to use PowerShell.
+
+    The articles include the following topics:
+    - Installing PowerShell
+    - PowerShell commands
+        - Command Types
+            - Cmdlets
+            - Functions
+            - Aliases
+            - Scripts
+            - Applications
+        - Mathematic Functions
+        - Input
+            - Arguments
+            - Parameters
+            - Wildcards
+            - Pipeline
+        - Output
+            - Text
+            - Objects
+            - Errors
+    - Using Output
+        - Variables
+        - Pipelines
+    - Reusable Code
+        - Functions
+        - Profiles
+        - Modules
+        - PowerShell Gallery
+    - Better Output
+        - Formatting
+        - Classes
+        - Calculated Properties
+    
+-->
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>PSSharp</title>
+
+    <base href="../..">
+    <link rel="stylesheet" href="styles.css">
+
+    <link rel="icon" href="assets/pssharp-colored.svg" type="image/svg" />
+
+    <meta charset="UTF-8">
+    <meta name="keywords" content="PSSharp,PowerShell,pwsh,github,open source">
+    <meta name="description" content="Documenting a developer's journey from PowerShell to the great beyond.">
+    <meta name="author" content="Caleb Frederickson">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="scripts/main/dark-mode.js"></script>
+    <script src="scripts/main/settings.js"></script>
+    <script src="scripts/main/copy-codeblock.js"></script>
+    <script src="scripts/main/nav.js"></script>
+
+<body class="layout-main">
+    <nav id="nav"></nav>
+
+    <h1 class="text-4x page-header text-nowrap">
+        <a href="">PSSharp</a>
+        <span class="cursor-pointer" onclick="openSettings()" style="width: 2rem; display: inline-flex;">
+            &gt;
+            <span class="text-cursor-blink">_</span>
+        </span>
+    </h1>
+
+    <div class="page-content">
+
+        <h2 class="text-3x">
+            Learning with a Game of War
+        </h2>
+
+        <nav class="page-breadcrumb">
+            <a href="">PSSharp</a>
+            <a href="series">Series</a>
+            <a href="series/war">Learning with a Game of War</a>
+        </nav>
+
+        <p>
+            The best way to learn is by doing, and in application development it's often the
+            case that we learn and do, learn more and redo. While most tutorial series <i>do</i>
+            lots of little things, I've always found it better to learn by building and
+            iterating over a product - since that's what I do in the real world anyway.
+        </p>
+
+        <p>
+            A simple card game, like War, can be used to teach a lot of programming concepts
+            as well as the tools provided by PowerShell - including simple concepts like
+            variables and loops, to more advanced strategies like async programming and
+            inter-process communication. Throughout this series we will start with the basics
+            - what PowerShell is - and work our way to a master's level of understanding of
+            PowerShell code. We will prioritize reliability with testing and code re-use, and
+            emphasize quality-of-life like argument completions and consistent error reporting
+            that help users of your product.
+        </p>
+
+        <p class="opinion">
+            This is an opinionated series. I'll try to be clear when I'm giving a practice that
+            I recommend for consistency's sake, but like all things with programming, your mileage
+            may vary. You know the application you're building better than I do; if you need to
+            do something differently than I, that's your perogative.
+        </p>
+
+        <p>
+            As always, feel free to jump around and find the concepts you need to learn more about.
+            Personally I never read a tutorial from start to finish - I find something relevant to
+            my needs and learn the associated concepts. However, this is designed as a consecutive
+            course so it's likely to teach you most completely if you process it in order.
+        </p>
+
+        <ol class="table-of-contents list-numbered">
+            <li>
+                <a class="table-of-contents-item" href="series/war/01-library-applications.html">
+                    01. A Library of Applications
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/02-functions.html">
+                    02. Functions - Reusable Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/03-scripts.html">
+                    03. Scripts - Shareable Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/04-modules.html">
+                    04. Modules - Organized Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/05-tests.html">
+                    05. Tests - Verified Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/sidebar-git.html">
+                    Sidebar: Git - Versioned Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/sidebar-gallery.html">
+                    Sidebar: Gallery - Published Code
+                </a>
+            </li>
+            <li>
+                <a class="table-of-contents-item" href="series/war/06-variables.html">
+                    06. Variables
+                </a>
+            </li>
+            <li>
+                <!-- Parameter block -->
+                <a class="table-of-contents-item" href="series/war/07-parameters-input.html">
+                    07. Parameters & Input
+                </a>
+            </li>
+            <li>
+                <!-- Writing an object -->
+                <a class="table-of-contents-item" href="series/war/09-output.html">
+                    09. Output
+                </a>
+            </li>
+            <li>
+                <!-- Validating input -->
+                <a class="table-of-contents-item" href="series/war/10-attributes.html">
+                    10. Attributes
+                </a>
+            </li>
+            <li>
+                <!--
+                    Collections will introduce us to New-CardDeck
+                -->
+                <a class="table-of-contents-item" href="series/war/11-collections.html">
+                    11. Collections
+                </a>
+            </li>
+            <li>
+                <!-- -->
+                <a class="table-of-contents-item" href="series/war/12-flow-control.html">
+                    12. Enumerations & Flow Control
+                </a>
+            </li>
+            <li>
+                <!-- Pipelines often work with collections - filter, sort -->
+                <a class="table-of-contents-item" href="series/war/13-pipeline.html">
+                    13. Pipeline
+                </a>
+            </li>
+
+            <!--
+                Extending Types
+            -->
+            <li>
+                <!-- Wildcards sub out the need for some `| ?` pipelines -->
+                <a class="table-of-contents-item" href="series/war/13-wildcards.html">
+                    13. Wildcards
+                </a>
+            </li>
+
+
+            <li>
+                <!-- Errors to report when we don't find the value -->
+                <a class="table-of-contents-item" href="series/war/14-errors.html">
+                    14. Errors
+                </a>
+            </li>
+
+            <li>
+                <!-- Types help us not need to write as many errors -->
+                <a class="table-of-contents-item" href="series/war/15-types.html">
+                    15. Almost Strongly Typed Code
+                </a>
+            </li>
+
+            <li>
+                <!-- Format custom types -->
+                <a class="table-of-contents-item" href="series/war/16-formatting.html">
+                    16. Formatting
+                </a>
+            </li>
+
+            <li>
+                <!-- Extend custom types - don't use format pseudo-properties -->
+                <a class="table-of-contents-item" href="series/war/17-extensions.html">
+                    17. Extended Type System
+                </a>
+            </li>
+
+            <li>
+                <a class="table-of-contents-item" href="series/war/18-conversions.html">
+                    18. Data Type Conversions, Type Casting, De/Serialization
+                </a>
+            </li>
+
+        </ol>
+
+    </div>
+
+    <div class="page-sidebar">
+        [SIDEBAR]
+    </div>
+</body>
+
+</html>
