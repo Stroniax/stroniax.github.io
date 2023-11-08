@@ -1,0 +1,159 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    --color-divider: #394955;
+
+    /* Primary background color */
+    --color-bg: #00141f;
+
+    /* Layered background colors (for cards, etc) */
+    --color-bg-1: #003448;
+    --color-bg-2: #16425B;
+    --color-bg-3: #2F6690;
+
+    /* Bright background colors (for buttons, etc) */
+    --color-action-accept: #008866;
+    --color-action-reject: #BA594F;
+    --color-action-primary: #009EF6;
+    --color-action-neutral: #394955;
+
+    /* Text colors */
+    --color-text: #EEE8A9;
+    --color-text-secondary: #9CADBC;
+
+    background-color: var(--color-bg);
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+
+    /* Default border radius */
+    --rounded: 0.25rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+span,
+label,
+button,
+div,
+body {
+    font-size: 1rem;
+    color: var(--color-text);
+    font-weight: normal;
+    text-decoration: none;
+}
+
+/* H1 is only for the site title */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+}
+
+/* H2 is only for the page title */
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-text-secondary);
+}
+
+.swim-practice,
+.swim-set-simple,
+.swim-set-nested {
+    border-radius: var(--rounded);
+    background-color: var(--color-bg-1);
+    padding: 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    gap: 0.5rem;
+}
+
+.swim-practice {
+    display: flex;
+    flex-direction: column;
+}
+
+.swim-set-simple,
+.swim-set-nested {
+    display: grid;
+    border: 0.125rem solid var(--color-divider);
+}
+
+.swim-set-simple {
+    grid-template-areas: "reps distance stroke interval description";
+    grid-template-columns: 2rem 4rem 4rem 4rem 1fr;
+    align-items: center;
+}
+
+.swim-set-nested {
+    grid-template-areas: "reps set";
+    grid-template-columns: 2rem 1fr;
+    align-items: center;
+}
+
+.swim-set-nested>ol,
+.swim-set-nested>ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.swim-set-nested .swim-set-nested,
+.swim-set-nested .swim-set-simple {
+    background-color: var(--color-bg-2);
+}
+
+.swim-set-nested .swim-set-nested .swim-set-nested,
+.swim-set-nested .swim-set-nested .swim-set-simple {
+    background-color: var(--color-bg-3);
+}
+
+.swim-set-simple>:nth-child(1) {
+    display: block;
+    grid-area: "reps";
+}
+
+.swim-set-simple>:nth-child(1)::after {
+    content: 'x';
+}
+
+.swim-set-simple>:nth-child(2) {
+    display: block;
+    grid-area: "distance";
+    text-align: right;
+}
+
+.swim-set-simple>:nth-child(3) {
+    display: block;
+    grid-area: "stroke";
+}
+
+.swim-set-simple>:nth-child(4)::before {
+    content: '@';
+}
+
+.swim-set-simple>:nth-child(4) {
+    display: block;
+    grid-area: "interval";
+}
+
+.swim-set-simple>:nth-child(5) {
+    display: block;
+    grid-area: "description";
+}
+
+.practice-description {
+    color: var(--color-text-secondary);
+    font-style: italic;
+}

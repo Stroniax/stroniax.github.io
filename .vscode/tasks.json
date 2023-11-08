@@ -20,6 +20,44 @@
             "isBackground": true,
             "problemMatcher": [],
             "promptOnClose": true,
+        },
+        {
+            "label": "WASM Release Build (pssharp-fe)",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": [
+                "build",
+                "${workspaceFolder}/pssharp-fe",
+                "--target",
+                "web",
+                "--no-typescript",
+                "--out-dir",
+                "${workspaceFolder}/scripts/main",
+                "--no-pack",
+                "--release",
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
+        },
+        {
+            "label": "WASM Debug Build (pssharp-fe)",
+            "type": "shell",
+            "command": "wasm-pack",
+            "args": [
+                "build",
+                "${workspaceFolder}/pssharp-fe",
+                "--target",
+                "web",
+                "--no-typescript",
+                "--out-dir",
+                "${workspaceFolder}/scripts/main",
+                "--no-pack",
+                "--dev",
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         }
     ]
 }
