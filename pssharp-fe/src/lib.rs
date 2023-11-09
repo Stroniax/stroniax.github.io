@@ -2,6 +2,7 @@ use wasm_bindgen::prelude::*;
 
 mod dark_mode;
 mod settings;
+mod tooltip;
 
 macro_rules! console_log {
     ($($t:tt)*) => (web_sys::console::log_1(&format_args!($($t)*).to_string().into()));
@@ -29,6 +30,8 @@ pub fn main() {
         settings::init_settings();
 
         dark_mode::set_styles_from_preference();
+
+        tooltip::init_tooltip();
     });
 
     window
