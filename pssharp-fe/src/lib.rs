@@ -18,8 +18,6 @@ use web_sys::{window, HtmlElement, MouseEvent};
 
 #[wasm_bindgen(start)]
 pub fn main() {
-    console_log!("main");
-
     let window = window().expect("Cannot access window!");
 
     // watch and forget - this leaks memory to leave the closures running
