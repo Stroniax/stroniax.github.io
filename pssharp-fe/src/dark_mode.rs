@@ -161,3 +161,20 @@ pub(crate) fn watch_storage(window: &Window) -> DarkModeWatch<'_> {
 
     DarkModeWatch::new(&window, on_storage_change)
 }
+
+pub(crate) fn watch_system_preference() {
+    let window = window().expect("no global `window` exists");
+
+    let on_system_change = Closure::<dyn Fn()>::new(|| {
+        set_styles_from_preference();
+    });
+
+    window
+        .match_media("(prefers-color-scheme: dark)")
+        .unwrap()
+        .unwrap()
+        .add_event_listener_with_callback("change", on_system_change.as_ref().unchecked_ref())
+        .expect("Could not subscribe to system dark mode");
+
+    on_system_change.forget();
+}

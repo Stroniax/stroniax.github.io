@@ -23,6 +23,7 @@ pub fn main() {
     // watch and forget - this leaks memory to leave the closures running
     // since we do not unsubscribe at any point in time
     dark_mode::watch_storage(&window).forget();
+    dark_mode::watch_system_preference();
 
     let on_window_load = Closure::<dyn Fn()>::new(|| {
         settings::init_settings();
