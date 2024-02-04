@@ -2,8 +2,8 @@
 <html>
 
 <head>
-    <title>PSSharp</title>
-    <link rel="icon" href="assets/pssharp-colored.svg" type="image/svg" />
+    <title>Skill Distribution | Tools | PSSharp</title>
+    <link rel="icon" href="../../assets/pssharp-colored.svg" type="image/svg" />
     <meta charset="UTF-8">
     <meta name="keywords" content="skill,distribution,random,match,players,teams,">
     <meta name="description" content="Semi-randomly distribute players into teams of similar skill.">
@@ -105,14 +105,14 @@
             margin-top: 0.25rem;
         }
 
-        #players-input>div {
+        .player-input {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             gap: 0.5rem;
         }
 
-        #players-input>div>label {
+        .player-input>label {
             display: none;
         }
 
@@ -173,15 +173,22 @@
             if (event.target.value.length > 0) {
                 // Ensure there is a player input below the current one
                 const nextPlayerId = playerId + 1;
-                const nextElementId = `player-${nextPlayerId}-input`;
-                const nextElement = document.getElementById(nextElementId);
-                if (nextElement) {
-                    return;
-                }
-                // Create a new player input
-                const newInput = document.createElement('div');
-                newInput.id = nextElementId;
-                newInput.innerHTML = `
+                createPlayerInput(nextPlayerId);
+            }
+        }
+
+        function createPlayerInput(nextPlayerId) {
+            const nextElementId = `player-${nextPlayerId}-input`;
+            const nextElement = document.getElementById(nextElementId);
+            if (nextElement) {
+                return false;
+            }
+
+            // Create a new player input
+            const newInput = document.createElement('div');
+            newInput.id = nextElementId;
+            newInput.classList.add('player-input');
+            newInput.innerHTML = `
                     <input id="player-${nextPlayerId}-name" type="text" placeholder="Player ${nextPlayerId}" maxlength="50" oninput="checkEnoughPlayers(event, ${nextPlayerId})"/>
                     <label for="player-${nextPlayerId}-name">Name</label>
 
@@ -192,8 +199,8 @@
                         &xotime;
                     </button>
                 `;
-                document.getElementById('players-input').insertBefore(newInput, document.getElementById('distribute-teams'));
-            }
+            document.getElementById('players-input').insertBefore(newInput, document.getElementById('distribute-teams'));
+            return true;
         }
 
         function removePlayer(playerId) {
@@ -204,6 +211,7 @@
         function distributeTeams() {
             event.preventDefault();
 
+            // get form data
             const players = [];
             document.getElementById('players-input').querySelectorAll('div[id^="player-"]').forEach(playerInput => {
                 const name = playerInput.querySelector('input[type="text"]').value;
@@ -214,14 +222,21 @@
                     players.push({ name, skill });
                 }
             });
-
             const teamCount = Number(document.getElementById('team-count').value);
-            const teams = [];
 
+            // set query parameters
+            const url = new URL(window.location.href);
+            url.searchParams.set('teamCount', teamCount);
+            url.searchParams.set('players', players.map(player => `${player.name}${player.skill.toString().padStart(2, '0')}`).join(','));
+            window.history.pushState({}, '', url);
+
+            // create teams
+            const teams = [];
             for (let i = 0; i < teamCount; i++) {
                 teams.push([]);
             }
 
+            // distribute players
             const totalSkill = players.reduce((acc, player) => acc + player.skill, 0);
             const averageSkillPerTeam = totalSkill / teamCount;
             function popRandomPlayer(minSkill, maxSkill) {
@@ -254,12 +269,6 @@
                 lowestSkillTeam.team.push(players.pop());
             }
 
-            // players.sort((a, b) => a.skill - b.skill);
-
-            // for (let i = 0; i < players.length; i++) {
-            //     teams[i % teamCount].push(players[i]);
-            // }
-
             const teamsOutput = document.getElementById('teams-output');
             teamsOutput.innerHTML = '';
 
@@ -278,6 +287,37 @@
             });
 
         }
+
+        function loadFromQueryParameters() {
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            const teamCount = Number(params.get('teamCount'));
+            if (teamCount) {
+                document.getElementById('team-count').value = teamCount;
+            }
+
+            const players = params.get('players')?.split(',').map(player => {
+                const skill = Number(player.substring(player.length - 2));
+                if (skill) {
+                    return { name: player.substring(0, player.length - 2), skill };
+                }
+                else {
+                    return { name: player, skill: 50 };
+                }
+            }) ?? [];
+
+            players.forEach((player, index) => {
+                createPlayerInput(index + 1);
+                const playerInput = document.getElementById(`player-${index + 1}-input`);
+                const playerInputName = playerInput.querySelector('input[type="text"]');
+                playerInputName.value = player.name;
+                const playerInputSkill = playerInput.querySelector('input[type="number"]');
+                playerInputSkill.value = player.skill;
+
+            });
+            // Ensure we have an extra at the end of the list
+            createPlayerInput(players.length + 1);
+        }
     </script>
 </head>
 
@@ -291,19 +331,19 @@
     </p>
 
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-around;">
-        <div>
-            <input id="team-count" type="number" placeholder="00" min="1" max="99" value="2" />
-            <label for="team-count"># of Teams</label>
-        </div>
-
         <form id="players-input" onsubmit="distributeTeams()">
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
+                <input id="team-count" type="number" placeholder="00" min="1" max="99" value="2" />
+                <label for="team-count"># of Teams</label>
+            </div>
+
             <div style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div>Name</div>
 
                 <div>Skill (out of 100)</div>
             </div>
 
-            <div id="player-1-input">
+            <div id="player-1-input" class="player-input">
                 <input id="player-1-name" type="text" placeholder="Player 1" maxlength="50"
                     oninput="checkEnoughPlayers(event, 1)" />
                 <label for="player-1-name">Name</label>
@@ -319,6 +359,8 @@
             <button id="distribute-teams" type="submit">
                 Distribute Teams
             </button>
+
+            <script type="text/javascript">loadFromQueryParameters()</script>
         </form>
     </div>
 
